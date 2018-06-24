@@ -1,0 +1,56 @@
+/***less***/
+@nice-blue: #5B83AD;
+
+
+////////计算px---》rem
+@design-width: 750px; // 设计稿宽度
+
+@rem: @design-width / 10; // 10等分得到的rem基准px
+
+.px2rem(@attr; @px) when (ispixel(@px)) {
+
+    @{attr}: unit(@px / @rem, rem);
+
+}
+
+// 处理非px值
+
+.px2rem(@attr; @px) when (default()) {
+
+    @{attr}: @px;
+
+}
+
+.px2rem(@attr; @px1; @px2) when (ispixel(@px1)) and (ispixel(@px2)) {
+
+    @{attr}: unit(@px1 / @rem, rem) unit(@px2 / @rem, rem);
+
+}
+
+.px2rem(@attr; @px1; @px2) when (ispixel(@px1)) and not (ispixel(@px2)) {
+
+    @{attr}: unit(@px1 / @rem, rem) @px2;
+
+}
+
+.px2rem(@attr; @px1; @px2) when not (ispixel(@px1)) and (ispixel(@px2)) {
+
+    @{attr}: @px1 unit(@px2 / @rem, rem);
+
+}
+
+// 处理非px值
+
+.px2rem(@attr; @px1; @px2) when (default()) {
+
+    @{attr}: @px1 @px2;
+
+}
+
+/*然后用法如：
+
+.px2rem(width; 240px);
+
+.px2rem(padding; 10px; 20px);*/
+
+
